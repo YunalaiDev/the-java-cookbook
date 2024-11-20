@@ -1,0 +1,28 @@
+[
+  {
+    "nameOfFood": "Gulyásleves",
+    "timeToMake": 120,
+    "ingredients": [
+      "500g marhahús",
+      "2 db burgonya",
+      "1 db vöröshagyma",
+      "2 gerezd fokhagyma",
+      "1 teáskanál pirospaprika",
+      "só",
+      "bors"
+    ],
+    "description": "A húst és a felaprított zöldségeket egy nagy fazékban megfőzzük. Hozzáadjuk a pirospaprikát, sót és borsot ízlés szerint."
+  },
+  {
+    "nameOfFood": "Tiramisu",
+    "timeToMake": 30,
+    "ingredients": [
+      "250g mascarpone",
+      "100g cukor",
+      "2 dl kávé",
+      "200g babapiskóta",
+      "kakaópor"
+    ],
+    "description": "A mascarpone-t cukorral és egy kevés kávéval jól összekeverjük. Rétegezzük a babapiskótát és a krémet, majd bőségesen megszórjuk kakaóporral."
+  }
+]
