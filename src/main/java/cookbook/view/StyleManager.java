@@ -12,27 +12,28 @@ public class StyleManager {
     public static final Color BORDER_COLOR = new Color(192, 192, 192);  // Világos szürke
 
     // Fontok
-    public static final Font MAIN_FONT = new Font("Segoe UI", Font.PLAIN, 18);  // Modern betűtípus nagyobb méretben
+    public static final Font MAIN_FONT = new Font("Segoe UI", Font.PLAIN, 21);  // Modern betűtípus nagyobb méretben
 
-    // Stílus beállítások a szövegmezőkhöz
     public static void styleTextField(JTextField textField) {
         textField.setFont(MAIN_FONT);
         textField.setBackground(PANEL_BACKGROUND_COLOR);
         textField.setForeground(TEXT_COLOR);
-        textField.setHorizontalAlignment(JTextField.RIGHT);  // Jobbra igazítás
+        textField.setHorizontalAlignment(JTextField.LEFT); // Balra igazítás
         textField.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
     }
 
-    // Stílus beállítások a szövegterületekhez
+
     public static void styleTextArea(JTextArea textArea) {
         textArea.setFont(MAIN_FONT);
         textArea.setBackground(PANEL_BACKGROUND_COLOR);
         textArea.setForeground(TEXT_COLOR);
         textArea.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(BORDER_COLOR),
-                new EmptyBorder(5, 5, 5, 5)
+                new EmptyBorder(5, 25, 5, 5)
         ));
+        textArea.setAlignmentX(JTextArea.LEFT_ALIGNMENT); // Balra igazítás
     }
+
 
     // Egyéb stílusok megtartása
     public static void styleList(JList list) {
@@ -58,13 +59,22 @@ public class StyleManager {
     }
 
     public static void styleLabel(JLabel label) {
-        label.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        label.setFont(new Font("Segoe UI", Font.BOLD, 21));
         label.setForeground(TEXT_COLOR);
     }
 
     public static void styleScrollPane(JScrollPane scrollPane) {
         scrollPane.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+    }
+
+    // Stílus beállítások a rádiógombokhoz
+    public static void styleRadioButton(JRadioButton radioButton) {
+        radioButton.setFont(MAIN_FONT);
+        radioButton.setBackground(PANEL_BACKGROUND_COLOR);
+        radioButton.setForeground(TEXT_COLOR);
+        radioButton.setFocusPainted(false);
+        radioButton.setBorder(new EmptyBorder(5, 5, 5, 5));
     }
 }
 
