@@ -16,19 +16,19 @@ public class DisplayFrame extends JFrame {
     private RecipeMethodsController recipeController;
     private JList<String> list;
     private DefaultListModel<String> listModel;
-    private JTextField searchField;
-    private JRadioButton nameRadioButton;
-    private JRadioButton ingredientsRadioButton;
-    private JRadioButton timeRadioButton;
+    public JTextField searchField;
+    public JRadioButton nameRadioButton;
+    public JRadioButton ingredientsRadioButton;
+    public JRadioButton timeRadioButton;
     private ButtonGroup searchGroup;
-    private JPanel searchResultsPanel;
+    public JPanel searchResultsPanel;
 
     public DisplayFrame() {
         recipeController = new RecipeMethodsController();
         initializeUI();
     }
 
-    private void initializeUI() {
+    public void initializeUI() {
         setTitle("The Java Cookbook");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
@@ -171,7 +171,6 @@ public class DisplayFrame extends JFrame {
         listRecipes(); // Frissíti a receptek listáját a hozzáadás után
     }
 
-
     private boolean validateInput(JTextField nameField, JTextField timeField) {
         return !nameField.getText().trim().isEmpty() && tryParseInt(timeField.getText()) > 0;
     }
@@ -184,17 +183,14 @@ public class DisplayFrame extends JFrame {
         }
     }
 
-
     private void showRecipeDetails(Recipe recipe) {
         RecipeDetailsDialog dialog = new RecipeDetailsDialog(this, recipe);
         dialog.setVisible(true);
     }
 
-
-
-    private void searchRecipe() {
+    public void searchRecipe() {
         JDialog searchDialog = new JDialog(this, "Recept keresése", true);
-        searchDialog.setSize(600, 400);
+        searchDialog.setSize(900, 600);
         searchDialog.setLocationRelativeTo(this);
 
         JPanel searchPanel = new JPanel(new BorderLayout());
@@ -305,10 +301,6 @@ public class DisplayFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "Válassz egy receptet a szerkesztéshez!", "Hiba", JOptionPane.WARNING_MESSAGE);
         }
     }
-
-
-
-
 
     private void deleteRecipe() {
         int index = list.getSelectedIndex();

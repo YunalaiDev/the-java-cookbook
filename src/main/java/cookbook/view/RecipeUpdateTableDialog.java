@@ -9,7 +9,7 @@ import java.awt.*;
 public class RecipeUpdateTableDialog extends JDialog {
     public RecipeUpdateTableDialog(Frame owner, Recipe recipe) {
         super(owner, "Módosított recept adatai", true);
-        setSize(600, 400);
+        setSize(1500, 200);
         setResizable(false);
         setLocationRelativeTo(owner);
 

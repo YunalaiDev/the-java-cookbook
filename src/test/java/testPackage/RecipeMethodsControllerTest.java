@@ -22,10 +22,11 @@ class RecipeMethodsControllerTest {
    }
 
     @Test
-    void testAddNewRecipe() {
-        Recipe recipe = new Recipe("Spaghetti", 30, Arrays.asList("Pasta", "Tomato Sauce"), "Cook pasta and add sauce");
+    public void testAddNewRecipe() {
+        Recipe recipe = new Recipe("Lecsó", 30, Arrays.asList("Paprika", "Paradicsom", "Hagyma"), "Süssük össze az egészet.");
         testController.addNewRecipe(recipe);
-        assertEquals(1, testController.getAllRecipes().size(), "Should have one recipe after adding one.");
+        List<Recipe> recipes = testController.getAllRecipes();
+        assertTrue(recipes.contains(recipe), "A recept hozzáadása nem sikerült.");
     }
 
     @Test
@@ -38,18 +39,20 @@ class RecipeMethodsControllerTest {
     }
 
     @Test
-    void testSearchRecipeByName() {
-        Recipe recipe1 = new Recipe("Pasta", 15, Arrays.asList("Flour", "Eggs"), "Cook pasta");
-        Recipe recipe2 = new Recipe("Pizza", 25, Arrays.asList("Cheese", "Tomato"), "Bake pizza");
-        testController.addNewRecipe(recipe1);
-        testController.addNewRecipe(recipe2);
+    public void testGetAllRecipes_EmptyList() {
+        testController.clearAllRecipes();
+        List<Recipe> recipes = testController.getAllRecipes();
+        assertTrue(recipes.isEmpty(), "Az üres lista tesztje nem sikerült.");
+    }
 
-        List<Recipe> results = testController.getAllRecipes().stream()
-                .filter(recipe -> recipe.getNameOfFood().equalsIgnoreCase("Pasta"))
-                .toList();
-
-        assertEquals(1, results.size(), "Egyetlen .");
-        assertEquals("Pasta", results.get(0).getNameOfFood());
+    @Test
+    public void testUpdateRecipe() {
+        Recipe recipe = new Recipe("Pörkölt", 90, Arrays.asList("Hús", "Hagyma", "Fűszerpaprika"), "Főzzük puhára.");
+        testController.addNewRecipe(recipe);
+        recipe.setTimeToMake(120);
+        testController.updateRecipe(recipe);
+        List<Recipe> recipes = testController.getAllRecipes();
+        assertEquals(120, recipes.get(0).getTimeToMake(), "A recept frissítése nem sikerült.");
     }
 }
 
