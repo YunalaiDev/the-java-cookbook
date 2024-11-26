@@ -17,6 +17,7 @@ public class BaseRecipeDialog extends JDialog {
         setLocationRelativeTo(owner);
     }
 
+    //Létrehoz egy adatmegjelenítő panelt amit 3 helyen is használunk (ebből öröklünk) de nem mindenhol szerkeszthető!
     protected JPanel createEditableField(String label, String value, boolean isSingleLine, boolean editable) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(StyleManager.MAIN_BACKGROUND_COLOR);
@@ -27,7 +28,7 @@ public class BaseRecipeDialog extends JDialog {
 
         if (isSingleLine) {
             JTextField textField = new JTextField(value);
-            textField.setEditable(editable);
+            textField.setEditable(editable); //!!!
             StyleManager.styleTextField(textField);
             textField.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(StyleManager.BORDER_COLOR, 1),

@@ -20,7 +20,7 @@ public class JSonServices {
     public static void setFileName(String newFileName) {
         FILE_NAME = newFileName;
     }
-
+    
     public static List<Recipe> loadRecipesFromFile(String filePath) {
         try (Reader reader = new FileReader(filePath)) {
             Gson gson = new Gson();
@@ -38,7 +38,6 @@ public class JSonServices {
             return new ArrayList<>(); // Ha olvasási hiba lép fel, üres listát adunk vissza
         }
     }
-
 
     // Receptek mentése az alapértelmezett fájlba
     public static void saveRecipesToJson(List<Recipe> recipes) {

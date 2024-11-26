@@ -14,6 +14,7 @@ public class StyleManager {
     // Fontok
     public static final Font MAIN_FONT = new Font("Segoe UI", Font.PLAIN, 21);  // Modern betűtípus nagyobb méretben
 
+    //TextField
     public static void styleTextField(JTextField textField) {
         textField.setFont(MAIN_FONT);
         textField.setBackground(PANEL_BACKGROUND_COLOR);
@@ -22,7 +23,7 @@ public class StyleManager {
         textField.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
     }
 
-
+    //TextArea stílusa
     public static void styleTextArea(JTextArea textArea) {
         textArea.setFont(MAIN_FONT);
         textArea.setBackground(PANEL_BACKGROUND_COLOR);
@@ -35,7 +36,7 @@ public class StyleManager {
     }
 
 
-    // Egyéb stílusok megtartása
+    // Lista stílusa
     public static void styleList(JList list) {
         list.setFont(MAIN_FONT);
         list.setBackground(PANEL_BACKGROUND_COLOR);

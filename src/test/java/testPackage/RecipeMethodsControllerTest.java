@@ -5,6 +5,7 @@ import cookbook.model.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +55,28 @@ class RecipeMethodsControllerTest {
         List<Recipe> recipes = testController.getAllRecipes();
         assertEquals(120, recipes.get(0).getTimeToMake(), "A recept frissítése nem sikerült.");
     }
+
+    @Test
+    public void testLoadEmptyRecipeList() {
+        String emptyJsonPath = "src/test/resources/empty.json";
+        try (FileWriter writer = new FileWriter(emptyJsonPath)) {
+            writer.write("[]"); // Üres JSON
+        } catch (Exception e) {
+            fail("Nem sikerült létrehozni az üres JSON fájlt.");
+        }
+
+        testController.loadRecipesFromFile(emptyJsonPath);
+        assertTrue(testController.getAllRecipes().isEmpty(), "Az üres JSON fájl betöltése nem üres listát adott vissza.");
+    }
+
+    @Test
+    public void testCreateNewEmptyJson() {
+        String newJsonPath = "src/test/resources/new_empty.json";
+        testController.createNewEmptyJson(newJsonPath);
+        assertTrue(testController.getAllRecipes().isEmpty(), "Az új üres JSON fájl létrehozása nem sikerült.");
+    }
+
+
 }
 
 

@@ -25,7 +25,7 @@ public class RecipeAddDialog extends BaseRecipeDialog {
 
         contentPanel.add(createEditableField("Recept neve:", "", true, true));
         contentPanel.add(createEditableField("Elkészítési idő (percben):", "", true, true));
-        contentPanel.add(createEditableField("Hozzávalók (vesszővel elválasztva):", "", false, true));
+        contentPanel.add(createEditableField("Hozzávalók (vesszővel vagy sortöréssel elválasztva):", "", false, true));
         contentPanel.add(createEditableField("Elkészítés:", "", false, true));
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);

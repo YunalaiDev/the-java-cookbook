@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Recipe {
     private String nameOfFood;
-    private int timeToMake; //percbwn
+    private int timeToMake; //percben
     private List<String> ingredients;
     private String description;
 
@@ -37,12 +37,11 @@ public class Recipe {
     public void setDescription(String description) {
         this.description = description;
     }
-    @Override
     public String toString() {
         return "Étel: " + nameOfFood + '\'' +
                 ", elkészítési idő: " + timeToMake +
-                " perc, hozzávalók" + listToString(ingredients) +
-                ", elkészítés: " + description + '\'';
+                " perc, hozzávalók " + listToString(ingredients) +
+                ", elkészítés: " + description;
     }
     // Segédmetódus az ingredients lista egyben való megjelenítéséhez
     private String listToString(List<String> list) {

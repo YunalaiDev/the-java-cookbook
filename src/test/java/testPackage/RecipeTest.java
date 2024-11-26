@@ -24,4 +24,18 @@ class RecipeTest {
         recipe.setIngredients(newIngredients);
         assertEquals(newIngredients, recipe.getIngredients(), "A hozzávalók frissítése nem sikerült.");
     }
+    @Test
+    public void testToString() {
+        Recipe recipe = new Recipe("Palacsinta", 30, Arrays.asList("Liszt", "Tej", "Tojás"), "Keverjük össze és süssük meg.");
+        String expectedString = "Étel: Palacsinta', elkészítési idő: 30 perc, hozzávalók Liszt, Tej, Tojás, elkészítés: Keverjük össze és süssük meg.";
+        assertEquals(expectedString, recipe.toString(), "A toString metódus hibás eredményt adott.");
+    }
+
+    @Test
+    public void testListToString() {
+        Recipe recipe = new Recipe("Pizza", 120, Arrays.asList("Liszt", "Élesztő", "Paradicsomszósz"), "Készítsük el a tésztát.");
+        String expectedIngredients = "Liszt, Élesztő, Paradicsomszósz";
+        assertEquals(expectedIngredients, String.join(", ", recipe.getIngredients()), "A hozzávalók listája nem lett helyesen szöveggé alakítva.");
+    }
+
 }

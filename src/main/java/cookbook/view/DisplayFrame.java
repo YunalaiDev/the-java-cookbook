@@ -8,8 +8,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DisplayFrame extends JFrame {
@@ -34,7 +34,7 @@ public class DisplayFrame extends JFrame {
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/dish.png")); //A logo készítője: Pause08 (via flaticon.com)
+        ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/dish.png"))); //A logo készítője: Pause08 (via flaticon.com)
         Image image = originalIcon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
         setIconImage(image);
         if (System.getProperty("os.name").startsWith("Mac")) { // macOS specifikus beállítás hogy én is láthassam az ikont:)
@@ -42,7 +42,6 @@ public class DisplayFrame extends JFrame {
         }
         // Menüsáv létrehozása
         JMenuBar menuBar = new JMenuBar();
-
         // Fájl menü létrehozása
         JMenu fileMenu = new JMenu("Fájl");
         JMenuItem loadMenuItem = new JMenuItem("JSON betöltése...");
@@ -54,7 +53,6 @@ public class DisplayFrame extends JFrame {
         fileMenu.add(newEmptyMenuItem);
         fileMenu.add(exitMenuItem);
         menuBar.add(fileMenu);
-
         // Egyéb menük létrehozása
         JMenuItem listMenuItem = new JMenuItem("Receptek listázása");
         JMenuItem addMenuItem = new JMenuItem("Recept hozzáadása");
@@ -66,7 +64,6 @@ public class DisplayFrame extends JFrame {
         menuBar.add(searchMenuItem);
         menuBar.add(editMenuItem);
         menuBar.add(deleteMenuItem);
-
         setJMenuBar(menuBar);
 
         // Menü eseménykezelők
@@ -106,12 +103,14 @@ public class DisplayFrame extends JFrame {
         listRecipes();
     }
 
+    //Receptek kilistázása
     private void listRecipes() {
         List<Recipe> recipes = recipeController.getAllRecipes();
         listModel.clear();
         recipes.forEach(recipe -> listModel.addElement(recipe.getNameOfFood()));
     }
 
+    //Receptek mentése másként
     private void saveRecipesAs() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Mentés másként...");
@@ -131,6 +130,7 @@ public class DisplayFrame extends JFrame {
         }
     }
 
+    //Uj fájl betöltése
     private void loadNewRecipeFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -144,6 +144,7 @@ public class DisplayFrame extends JFrame {
         }
     }
 
+    //Uj üres fájl betöltése
     private void createNewEmptyFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Új üres JSON fájl létrehozása...");
@@ -165,16 +166,14 @@ public class DisplayFrame extends JFrame {
 
     }
 
+    //Recept felvétele
     private void addRecipe() {
         RecipeAddDialog dialog = new RecipeAddDialog(this, recipeController);
         dialog.setVisible(true);
         listRecipes(); // Frissíti a receptek listáját a hozzáadás után
     }
 
-    private boolean validateInput(JTextField nameField, JTextField timeField) {
-        return !nameField.getText().trim().isEmpty() && tryParseInt(timeField.getText()) > 0;
-    }
-
+    // Megpróbálja szöveges értékből egész számot konvertálni, hiba esetén -1-et ad vissza
     private int tryParseInt(String value) {
         try {
             return Integer.parseInt(value);
@@ -183,11 +182,13 @@ public class DisplayFrame extends JFrame {
         }
     }
 
+    //Recept részleteit mutatja egy dialoggal
     private void showRecipeDetails(Recipe recipe) {
         RecipeDetailsDialog dialog = new RecipeDetailsDialog(this, recipe);
         dialog.setVisible(true);
     }
 
+    //Recept keresés menüje
     public void searchRecipe() {
         JDialog searchDialog = new JDialog(this, "Recept keresése", true);
         searchDialog.setSize(900, 600);
@@ -238,29 +239,44 @@ public class DisplayFrame extends JFrame {
         searchDialog.setVisible(true);
     }
 
+    //Recept keresés logikája
     private void performSearch() {
         String searchText = searchField.getText().trim();
+        // Ha a keresési mező üres, üzenet jelenik meg és a keresés leáll
+        if (searchText.isEmpty()) {
+            updateSearchResults(List.of()); // Nincs találat
+            JOptionPane.showMessageDialog(this, "Kérlek, adj meg egy keresési kifejezést!", "Hiba", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         List<Recipe> filteredRecipes = recipeController.getAllRecipes();
-
         if (nameRadioButton.isSelected()) {
+            // Név alapján szűrés
             filteredRecipes = filteredRecipes.stream()
                     .filter(recipe -> recipe.getNameOfFood().toLowerCase().contains(searchText.toLowerCase()))
                     .collect(Collectors.toList());
         } else if (ingredientsRadioButton.isSelected()) {
+            // Hozzávalók alapján szűrés
             filteredRecipes = filteredRecipes.stream()
-                    .filter(recipe -> recipe.getIngredients().stream().anyMatch(ing -> ing.toLowerCase().contains(searchText.toLowerCase())))
+                    .filter(recipe -> recipe.getIngredients().stream()
+                            .anyMatch(ing -> ing.toLowerCase().contains(searchText.toLowerCase())))
                     .collect(Collectors.toList());
         } else if (timeRadioButton.isSelected()) {
+            // Elkészítési idő alapján szűrés
             int maxTime = tryParseInt(searchText);
-            if (maxTime > 0) {
-                filteredRecipes = filteredRecipes.stream()
-                        .filter(recipe -> recipe.getTimeToMake() <= maxTime)
-                        .collect(Collectors.toList());
+            if (maxTime <= 0) {
+                // Ha a keresési mező nem érvényes szám, üzenet jelenik meg és a keresés leáll
+                JOptionPane.showMessageDialog(this, "Kérlek, adj meg egy pozitív egész számot az időszűréshez!", "Hiba", JOptionPane.WARNING_MESSAGE);
+                return;
             }
+            filteredRecipes = filteredRecipes.stream()
+                    .filter(recipe -> recipe.getTimeToMake() <= maxTime)
+                    .collect(Collectors.toList());
         }
+
         updateSearchResults(filteredRecipes);
     }
 
+    //Keresés után frissíti az eredményeket
     private void updateSearchResults(List<Recipe> recipes) {
         searchResultsPanel.removeAll();
         if (recipes.isEmpty()) {
@@ -284,6 +300,7 @@ public class DisplayFrame extends JFrame {
         searchResultsPanel.repaint();
     }
 
+    //Recept szerkesztése Dialog hívása, sikeres esetén a JTable megjelenítése
     private void editRecipe() {
         int index = list.getSelectedIndex();
         if (index != -1) {
@@ -302,6 +319,7 @@ public class DisplayFrame extends JFrame {
         }
     }
 
+    //Recept törlése (KIJELÖLT RECEPT)
     private void deleteRecipe() {
         int index = list.getSelectedIndex();
         if (index != -1) {
